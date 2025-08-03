@@ -1,0 +1,4 @@
+repository "newspaper sim/NewspaperSim@2474471503910@cloud"
+  path "/"
+    br "/main"
+    co "/main"
