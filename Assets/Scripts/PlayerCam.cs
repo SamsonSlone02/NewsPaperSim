@@ -7,6 +7,7 @@ public class PlayerCam : MonoBehaviour
 
     public Transform orientation;
     public Transform player;
+    public Global myGlobal;
 
     private float xRotation;
     private float yRotation;
@@ -38,19 +39,23 @@ public class PlayerCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        lookInput = playerControls.Player.Look.ReadValue<Vector2>();
 
-        float mouseX = lookInput.x * Time.deltaTime * sensX;
-        float mouseY = lookInput.y * Time.deltaTime * sensY;
+        if (myGlobal.g_CanLook)
+        {
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            lookInput = playerControls.Player.Look.ReadValue<Vector2>();
 
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            float mouseX = lookInput.x * Time.deltaTime * sensX;
+            float mouseY = lookInput.y * Time.deltaTime * sensY;
 
-        
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+
+        }
 
         //player.rotation = Quaternion.Euler(0, transform.rotation.y, 0); 
     }

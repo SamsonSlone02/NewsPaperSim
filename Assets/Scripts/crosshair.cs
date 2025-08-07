@@ -11,7 +11,7 @@ public class crosshair : MonoBehaviour
     private PlayerControls playerControls;
     delegate void OnPlayerInteract();
     OnPlayerInteract onPlayerInteract;
-    
+    public Global myGlobal;
 
     public float pickupDistance;
     public Vector3 cameraPos;
@@ -19,6 +19,7 @@ public class crosshair : MonoBehaviour
     private void Awake()
     {
         //playerControls = new PlayerControls();
+        myGlobal = GameObject.Find("Game").GetComponent<Global>();
     }
 
     private void OnEnable()
@@ -74,6 +75,10 @@ public class crosshair : MonoBehaviour
 
             }
         }
+        if (context.canceled)
+        {
+            Debug.Log("key released");
+        }
         
 
 
@@ -83,11 +88,19 @@ public class crosshair : MonoBehaviour
     {
         if (context.performed)
         {
+
+
             if (GetComponent<PlayerInfo>().isHolding())
             {
                 release();
                 return;
             }
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            myGlobal.g_CanLook = false;
+            gameObject.GetComponent<PlayerBackpack>().showUI();
+           
+            
             layerMask = LayerMask.GetMask("Pickupable", "Interactable");
             cameraDir = cameraTransform.forward.normalized;
             cameraPos = cameraTransform.position;
@@ -112,6 +125,15 @@ public class crosshair : MonoBehaviour
                 Debug.Log("not a valid 'interact 2' object!");
                 gameObject.GetComponent<PlayerBackpack>().remove(0);
             }
+        }
+        if (context.canceled)
+        {
+            Debug.Log("key released");
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            myGlobal.g_CanLook = true;
+            gameObject.GetComponent<PlayerBackpack>().hideUI();
+
         }
     }
 
