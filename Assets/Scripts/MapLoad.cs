@@ -312,12 +312,12 @@ public class MapLoad : MonoBehaviour
                     case 0:
                         if (i == height - 1)
                         {
-                            asciiMap[i, j] = upHouse;
-                        }else
                             asciiMap[i, j] = downHouse;
+                        }else
+                            asciiMap[i, j] = upHouse;
                         break;
-                    case 1:
-                        asciiMap[i, j] = upHouse;
+                    case 1:    
+                        asciiMap[i, j] = downHouse;
                         break;
 
                 }
